@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Services — {{ BUSINESS.full_name }}{% endblock %}
+{% block body_class %}page-services{% endblock %}
+
+{% block content %}
+<section class="page-hero" data-reveal>
+  <div class="wrap">
+    <span class="eyebrow">Services</span>
+    <h1>Nutrition support for every stage of life</h1>
+    <p class="lede">Every session is available in-person in Rumuosi or online — pick what fits, then choose your time.</p>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="wrap">
+    <div class="card-grid card-grid-wide">
+      {% for service in services %}
+      <div class="service-card service-card-full" data-reveal>
+        <span class="service-icon">
+          <svg viewBox="0 0 24 24" width="26" height="26"><use href="#icon-{{ service.icon }}"/></svg>
+        </span>
+        <h3>{{ service.name }}</h3>
+        <p>{{ service.summary }}</p>
+        <div class="service-foot">
+          <span class="service-meta">{{ service.duration_display }} &middot; {{ service.price_display }}</span>
+          <a href="{% url 'book_appointment' %}?service={{ service.slug }}" class="btn btn-outline btn-sm">Book this</a>
+        </div>
+      </div>
+      {% empty %}
+      <p class="muted">Services are being updated — check back shortly, or contact NWZ directly.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section cta-band" data-reveal>
+  <div class="wrap cta-band-inner">
+    <div>
+      <h2>Not sure which service fits?</h2>
+      <p>Send a message and NWZ will help you pick the right session for your goals.</p>
+    </div>
+    <a href="{% url 'contact' %}" class="btn btn-primary btn-lg">Ask a question</a>
+  </div>
+</section>
+{% endblock %}

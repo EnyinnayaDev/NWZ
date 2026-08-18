@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Book a session — {{ BUSINESS.full_name }}{% endblock %}
+{% block body_class %}page-book{% endblock %}
+
+{% block content %}
+<section class="page-hero" data-reveal>
+  <div class="wrap">
+    <span class="eyebrow">Book a session</span>
+    <h1>Choose your service and time</h1>
+    <p class="lede">{{ BUSINESS.hours }} &middot; {{ BUSINESS.session_modes }}</p>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="wrap book-grid">
+    <form method="post" class="booking-form card-surface" data-reveal novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <p class="field-error">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
+
+      <div class="field-group">
+        <label for="{{ form.service.id_for_label }}">Service</label>
+        {{ form.service }}
+        {% if form.service.errors %}<p class="field-error">{{ form.service.errors.0 }}</p>{% endif %}
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="{{ form.date.id_for_label }}">Date</label>
+          {{ form.date }}
+          {% if form.date.errors %}<p class="field-error">{{ form.date.errors.0 }}</p>{% endif %}
+        </div>
+        <div class="field-group">
+          <label for="{{ form.time.id_for_label }}">Time</label>
+          {{ form.time }}
+          {% if form.time.errors %}<p class="field-error">{{ form.time.errors.0 }}</p>{% endif %}
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="{{ form.mode.id_for_label }}">Session format</label>
+        {{ form.mode }}
+      </div>
+
+      <div class="field-row">
+        <div class="field-group">
+          <label for="{{ form.full_name.id_for_label }}">Full name</label>
+          {{ form.full_name }}
+        </div>
+        <div class="field-group">
+          <label for="{{ form.phone.id_for_label }}">Phone</label>
+          {{ form.phone }}
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+      </div>
+
+      <div class="field-group">
+        <label for="{{ form.notes.id_for_label }}">Notes (optional)</label>
+        {{ form.notes }}
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Request appointment</button>
+      <p class="form-note">NWZ takes appointments every day, 9:00 AM – 5:00 PM. You'll see the status on your dashboard once confirmed.</p>
+    </form>
+
+    <aside class="book-aside" data-reveal>
+      <h3>What happens next</h3>
+      <ol class="mini-steps">
+        <li>NWZ reviews your request within one business day.</li>
+        <li>Your appointment status updates to "Confirmed" on your dashboard.</li>
+        <li>You'll be reachable at the phone number you provide, in case of any changes.</li>
+      </ol>
+      <div class="aside-contact">
+        <span>Prefer to book by chat?</span>
+        <a href="{{ BUSINESS.whatsapp_link }}" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">
+          <svg viewBox="0 0 24 24" width="16" height="16"><use href="#icon-whatsapp"/></svg>
+          WhatsApp NWZ
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

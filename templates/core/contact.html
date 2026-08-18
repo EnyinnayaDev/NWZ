@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Contact — {{ BUSINESS.full_name }}{% endblock %}
+{% block body_class %}page-contact{% endblock %}
+
+{% block content %}
+<section class="page-hero" data-reveal>
+  <div class="wrap">
+    <span class="eyebrow">Contact</span>
+    <h1>Let's talk about your nutrition goals</h1>
+    <p class="lede">Have a question before booking? Reach out — NWZ usually replies within a day.</p>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="wrap contact-grid">
+    <div class="contact-info" data-reveal>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" width="20" height="20"><use href="#icon-plate"/></svg>
+        <div>
+          <strong>Address</strong>
+          <span>{{ BUSINESS.address }}</span>
+        </div>
+      </div>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" width="20" height="20"><use href="#icon-heart"/></svg>
+        <div>
+          <strong>Phone</strong>
+          <a href="tel:{{ BUSINESS.phone }}">{{ BUSINESS.phone_display }}</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" width="20" height="20"><use href="#icon-whatsapp"/></svg>
+        <div>
+          <strong>WhatsApp</strong>
+          <a href="{{ BUSINESS.whatsapp_link }}" target="_blank" rel="noopener">Message on WhatsApp</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" width="20" height="20"><use href="#icon-leaf"/></svg>
+        <div>
+          <strong>Email</strong>
+          <a href="mailto:{{ BUSINESS.email }}">{{ BUSINESS.email }}</a>
+        </div>
+      </div>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" width="20" height="20"><use href="#icon-scale"/></svg>
+        <div>
+          <strong>Hours</strong>
+          <span>{{ BUSINESS.hours }}</span>
+          <span class="muted">{{ BUSINESS.hours_note }}</span>
+        </div>
+      </div>
+
+      <div class="map-placeholder" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28"><use href="#icon-plate"/></svg>
+        <span>Rumuosi, Port Harcourt</span>
+      </div>
+    </div>
+
+    <form method="post" class="contact-form card-surface" data-reveal>
+      {% csrf_token %}
+      <h2>Send a message</h2>
+      {% for field in form %}
+        <div class="field-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+          {{ field }}
+          {% if field.errors %}<p class="field-error">{{ field.errors.0 }}</p>{% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary btn-block">Send message</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

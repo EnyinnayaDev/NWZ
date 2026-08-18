@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Sign in — {{ BUSINESS.full_name }}{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+
+{% block content %}
+<section class="auth-section" data-reveal>
+  <div class="wrap auth-wrap">
+    <form method="post" class="auth-card card-surface" data-reveal>
+      {% csrf_token %}
+      <span class="eyebrow">Welcome back</span>
+      <h1>Sign in to NWZ</h1>
+      <p class="muted">Sign in to book a session or manage your appointments.</p>
+
+      {% if form.non_field_errors %}
+        <p class="field-error">{{ form.non_field_errors.0 }}</p>
+      {% endif %}
+
+      <div class="field-group">
+        <label for="{{ form.username.id_for_label }}">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="field-group">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        {{ form.password }}
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+      <p class="auth-switch">New to NWZ? <a href="{% url 'signup' %}">Create an account</a></p>
+    </form>
+  </div>
+</section>
+{% endblock %}

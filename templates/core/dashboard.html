@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}My appointments — {{ BUSINESS.full_name }}{% endblock %}
+{% block body_class %}page-dashboard{% endblock %}
+
+{% block content %}
+<section class="page-hero" data-reveal>
+  <div class="wrap">
+    <span class="eyebrow">Your dashboard</span>
+    <h1>Hi {{ user.first_name|default:user.username }}, here are your appointments</h1>
+    <a href="{% url 'book_appointment' %}" class="btn btn-primary">Book another session</a>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="wrap">
+    <h2 class="list-heading">Upcoming</h2>
+    {% if upcoming %}
+    <div class="appt-list">
+      {% for appt in upcoming %}
+      <div class="appt-card" data-reveal>
+        <div class="appt-main">
+          <span class="badge badge-{{ appt.status_color }}">{{ appt.get_status_display }}</span>
+          <h3>{{ appt.service.name }}</h3>
+          <p>{{ appt.date|date:"D, d M Y" }} at {{ appt.time|time:"g:i A" }} &middot; {{ appt.get_mode_display }}</p>
+        </div>
+        {% if appt.status != 'cancelled' %}
+        <form method="post" action="{% url 'cancel_appointment' appt.pk %}" onsubmit="return confirm('Cancel this appointment?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline btn-sm">Cancel</button>
+        </form>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="muted">No upcoming appointments yet. <a href="{% url 'book_appointment' %}">Book one now</a>.</p>
+    {% endif %}
+
+    <h2 class="list-heading">Past &amp; cancelled</h2>
+    {% if past %}
+    <div class="appt-list">
+      {% for appt in past %}
+      <div class="appt-card appt-card-muted" data-reveal>
+        <div class="appt-main">
+          <span class="badge badge-{{ appt.status_color }}">{{ appt.get_status_display }}</span>
+          <h3>{{ appt.service.name }}</h3>
+          <p>{{ appt.date|date:"D, d M Y" }} at {{ appt.time|time:"g:i A" }} &middot; {{ appt.get_mode_display }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="muted">Nothing here yet.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

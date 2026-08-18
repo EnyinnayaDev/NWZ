@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ service.name }} — {{ BUSINESS.full_name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero" data-reveal>
+  <div class="wrap">
+    <a href="{% url 'services' %}" class="back-link">&larr; All services</a>
+    <span class="eyebrow">Service</span>
+    <h1>{{ service.name }}</h1>
+    <p class="lede">{{ service.summary }}</p>
+  </div>
+</section>
+
+<section class="section" data-reveal>
+  <div class="wrap detail-grid">
+    <div class="detail-copy" data-reveal>
+      <h2>What to expect</h2>
+      <p>{{ service.description }}</p>
+    </div>
+    <aside class="detail-card" data-reveal>
+      <span class="service-icon">
+        <svg viewBox="0 0 24 24" width="26" height="26"><use href="#icon-{{ service.icon }}"/></svg>
+      </span>
+      <dl class="detail-facts">
+        <div><dt>Duration</dt><dd>{{ service.duration_display }}</dd></div>
+        <div><dt>Price</dt><dd>{{ service.price_display }}</dd></div>
+        <div><dt>Format</dt><dd>{{ BUSINESS.session_modes }}</dd></div>
+        <div><dt>Availability</dt><dd>{{ BUSINESS.hours }}</dd></div>
+      </dl>
+      <a href="{% url 'book_appointment' %}?service={{ service.slug }}" class="btn btn-primary btn-block">Book this session</a>
+    </aside>
+  </div>
+</section>
+{% endblock %}
